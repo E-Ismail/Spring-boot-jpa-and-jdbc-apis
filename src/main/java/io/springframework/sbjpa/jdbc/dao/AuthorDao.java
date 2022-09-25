@@ -8,4 +8,9 @@ public interface AuthorDao {
     Author getByName(String firstName, String lastName);
 
     Author saveNewAuthor(Author author);
+
+
+    Author updateAuthor(Author saved);
+
+    void deleteDeleteById(Long id);
 }

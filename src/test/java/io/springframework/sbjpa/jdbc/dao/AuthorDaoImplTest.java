@@ -37,10 +37,10 @@ class AuthorDaoImplTest {
     @Test
     void testGetAuthorByName() {
         //GIVEN
-        String firstName= "Eric";
+        String firstName = "Eric";
         String lastName = "Evans";
         //WHEN
-        Author author = authorDao.getByName(firstName,lastName);
+        Author author = authorDao.getByName(firstName, lastName);
         //THEN
         assertThat(author).isNotNull();
         assertThat(author.getId()).isEqualTo(2);
@@ -49,13 +49,46 @@ class AuthorDaoImplTest {
     @Test
     void testSaveAuthor() {
         //GIVEN
-        String firstName= "Ismail";
-        String lastName = "Ech-cherrate";
-        Author newAuthor= new Author(firstName, lastName);
+        String firstName = "Ismail";
+        String lastName = "Echcherrate";
+        Author newAuthor = new Author(firstName, lastName);
         //WHEN
         Author author = authorDao.saveNewAuthor(newAuthor);
         //THEN
         assertThat(author).isNotNull();
-        assertThat(author.getId()).isEqualTo(4);
+        assertThat(author.getFirstName()).isEqualTo(firstName);
     }
+
+    @Test
+    void testSaveUpdateAuthor() {
+        //GIVEN
+        Author author = new Author();
+        author.setFirstName("JOHN");
+        author.setLastName("D");
+        Author saved = authorDao.saveNewAuthor(author);
+        //WHEN
+        saved.setLastName("Doe");
+        Author updated = authorDao.updateAuthor(saved);
+        //THEN
+        assertThat(author).isNotNull();
+        assertThat(updated.getLastName()).isEqualTo("Doe");
+    }
+
+    @Test
+    void testSaveDeleteAuthor() {
+        //GIVEN
+        Author author = new Author();
+        author.setFirstName("Jino");
+        author.setLastName("T");
+
+        Author saved= authorDao.saveNewAuthor(author);
+        authorDao.deleteDeleteById(saved.getId());
+
+        //WHEN
+        Author deleted = authorDao.getById(saved.getId());
+        //THEN
+        assertThat(deleted).isNull();
+
+    }
+
 }
