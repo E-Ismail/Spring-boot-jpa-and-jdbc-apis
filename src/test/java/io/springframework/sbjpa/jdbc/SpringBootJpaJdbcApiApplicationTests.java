@@ -12,7 +12,7 @@ class SpringBootJpaJdbcApiApplicationTests {
 
 	@Test
 	void contextLoads() {
-		assertThat(1).isGreaterThan(0);
+		assertThat(1).isPositive();
 	}
 
 }

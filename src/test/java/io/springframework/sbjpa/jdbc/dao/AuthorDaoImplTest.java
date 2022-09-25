@@ -45,4 +45,17 @@ class AuthorDaoImplTest {
         assertThat(author).isNotNull();
         assertThat(author.getId()).isEqualTo(2);
     }
+
+    @Test
+    void testSaveAuthor() {
+        //GIVEN
+        String firstName= "Ismail";
+        String lastName = "Ech-cherrate";
+        Author newAuthor= new Author(firstName, lastName);
+        //WHEN
+        Author author = authorDao.saveNewAuthor(newAuthor);
+        //THEN
+        assertThat(author).isNotNull();
+        assertThat(author.getId()).isEqualTo(4);
+    }
 }
