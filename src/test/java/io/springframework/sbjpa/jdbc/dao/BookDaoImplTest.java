@@ -1,5 +1,6 @@
 package io.springframework.sbjpa.jdbc.dao;
 
+import io.springframework.sbjpa.jdbc.domain.Author;
 import io.springframework.sbjpa.jdbc.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 //@ComponentScan(basePackages = {"io.springframework.sbjpa.jdbc.dao"}) // with maven is not working
 // To handle the exception: No qualifying bean of type AuthorDao
-@Import(BookDaoImpl.class)
+@Import({BookDaoImpl.class, AuthorDaoImpl.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookDaoImplTest {
 
     @Autowired
     BookDao bookDao;
+
+    @Autowired
+    AuthorDao authorDao;
 
     @Test
     void testGetBookById() {
@@ -56,14 +60,17 @@ class BookDaoImplTest {
         Book newBook = new Book();
         newBook.setTitle("Parallel transaction in SB");
         newBook.setIsbn("978-0321125320");
-        newBook.setAuthorId(4L);
+        Author author= new Author();
+        author.setId(4L);
+        newBook.setAuthor(author);
+        newBook.setAuthor(author);
         newBook.setPublisher("Addison Wesley");
 
         //WHEN
         Book book = bookDao.saveNewBook(newBook);
         //THEN
         assertThat(book).isNotNull();
-        assertThat(book.getAuthorId()).isEqualTo(4);
+        assertThat(book.getAuthor().getId()).isEqualTo(4);
     }
 
     @Test
@@ -72,7 +79,9 @@ class BookDaoImplTest {
         Book newBook = new Book();
         newBook.setTitle("Multi-Threading processing for fun");
         newBook.setIsbn("978-0321125350");
-        newBook.setAuthorId(4L);
+        Author author= new Author();
+        author.setId(4L);
+        newBook.setAuthor(author);
         newBook.setPublisher("Echcherrate prod");
 
         //WHEN
@@ -90,7 +99,6 @@ class BookDaoImplTest {
         Book newBook = new Book();
         newBook.setTitle("A book about DB migration");
         newBook.setIsbn("978-0321125365");
-        newBook.setAuthorId(4L);
         newBook.setPublisher("Ech-cherrate production");
 
         //WHEN

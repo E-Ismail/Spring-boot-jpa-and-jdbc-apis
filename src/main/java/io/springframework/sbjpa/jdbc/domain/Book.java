@@ -1,10 +1,7 @@
 package io.springframework.sbjpa.jdbc.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -18,17 +15,20 @@ public class Book {
     private String title;
     private String isbn;
     private String publisher;
-    private Long authorId;
+    @Transient
+    //A property on the pojo that is not being managed, not tied to the DB
+    //Just saying HEY hibernate don't pay attention to this property XD
+    private Author author;
 
     public Book() {
 
     }
 
-    public Book(String title, String isbn, String publisher, Long authorId) {
+    public Book(String title, String isbn, String publisher, Author author) {
         this.title = title;
         this.isbn = isbn;
         this.publisher = publisher;
-        this.authorId = authorId;
+        this.author = author;
     }
 
     @Override
@@ -78,11 +78,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public Long getAuthorId() {
-        return authorId;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }
